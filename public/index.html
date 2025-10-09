@@ -88,6 +88,390 @@
                 </div>
             </div>
 
+            <!-- Invoice Processing Interface -->
+            <div id="invoiceProcessing" class="bg-white rounded-2xl shadow-lg p-6 mb-6" style="display: none;">
+                <!-- Visual Prompt Header -->
+                <div class="bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-lg p-4 mb-6">
+                    <div class="flex items-center mb-3">
+                        <div class="bg-green-500 text-white rounded-full p-2 mr-3">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-800">Fatura decodificada com sucesso!</h3>
+                    </div>
+                    <p class="text-gray-700 mb-4">
+                        Pretende lançar esta fatura no sistema e acionar integrações automáticas? 
+                        Selecione as ações desejadas abaixo ou preencha campos adicionais conforme necessário:
+                    </p>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-2 text-sm">
+                        <div class="flex items-center text-gray-600">
+                            <span class="mr-2">💳</span> Efetuar pagamento via banco
+                        </div>
+                        <div class="flex items-center text-gray-600">
+                            <span class="mr-2">📊</span> Registrar IVA recolhido
+                        </div>
+                        <div class="flex items-center text-gray-600">
+                            <span class="mr-2">🏷️</span> Categorizar fatura
+                        </div>
+                        <div class="flex items-center text-gray-600">
+                            <span class="mr-2">📝</span> Lançar em contas a pagar
+                        </div>
+                        <div class="flex items-center text-gray-600">
+                            <span class="mr-2">📎</span> Anexar comprovativo
+                        </div>
+                        <div class="flex items-center text-gray-600">
+                            <span class="mr-2">🔔</span> Criar alerta de vencimento
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-semibold text-gray-800">🧾 Dados da Fatura</h3>
+                    <div class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+                        Fatura decodificada!
+                    </div>
+                </div>
+                
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                    <p class="text-blue-800 font-medium mb-2">
+                        🎯 Pretende lançar esta fatura no sistema e acionar integrações automáticas?
+                    </p>
+                    <p class="text-blue-700 text-sm">
+                        Selecione as ações desejadas abaixo ou preencha campos adicionais conforme necessário:
+                    </p>
+                </div>
+
+                <!-- Invoice Details Form -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                    <!-- Left Column - Invoice Data -->
+                    <div class="space-y-4">
+                        <h4 class="font-semibold text-gray-800 border-b pb-2">📋 Dados da Fatura</h4>
+                        
+                        <!-- Seção A-E: Identificação -->
+                        <div class="bg-gray-50 rounded-lg p-4 mb-4">
+                            <h5 class="font-medium text-gray-700 mb-3 flex items-center">
+                                <span class="mr-2">🏢</span> Identificação das Partes
+                            </h5>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">A - NIF do Emitente</label>
+                                    <input type="text" id="nifEmitente" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm" readonly>
+                                    <div class="text-xs text-gray-500 mt-1">Pessoa singular ou empresa que emitiu a fatura</div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">B - NIF do Adquirente</label>
+                                    <input type="text" id="nifAdquirente" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm" readonly>
+                                    <div class="text-xs text-gray-500 mt-1">Instituto AreLuna (cliente)</div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-3 gap-3 mt-3">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">C - País do Emitente</label>
+                                    <input type="text" id="paisEmitente" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm" readonly>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">D - País do Adquirente</label>
+                                    <input type="text" id="paisAdquirente" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm" readonly>
+                                    <div class="text-xs text-red-500 mt-1" id="paisAdquirenteWarning" style="display: none;">⚠️ Não é um país ISO válido</div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">E - Tipo de Adquirente</label>
+                                    <input type="text" id="tipoAdquirente" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm" readonly>
+                                    <div class="text-xs text-gray-500 mt-1">N = Não residente</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Seção F-H: Documento -->
+                        <div class="bg-gray-50 rounded-lg p-4 mb-4">
+                            <h5 class="font-medium text-gray-700 mb-3 flex items-center">
+                                <span class="mr-2">📄</span> Dados do Documento
+                            </h5>
+                            <div class="grid grid-cols-3 gap-3">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">F - Data do Documento</label>
+                                    <input type="date" id="dataFatura" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm" readonly>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">G - Série e Número</label>
+                                    <input type="text" id="numeroDocumento" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm" readonly>
+                                    <div class="text-xs text-gray-500 mt-1">Identificador único da fatura</div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">H - Código do Documento</label>
+                                    <input type="text" id="codigoDocumento" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm" readonly>
+                                    <div class="text-xs text-gray-500 mt-1">Valor genérico ou omitido</div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3 mt-3">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Tipo de Documento</label>
+                                    <input type="text" id="tipoDocumento" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm font-medium" readonly>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">I1 - Moeda</label>
+                                    <input type="text" id="moeda" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm" readonly>
+                                    <div class="text-xs text-red-500 mt-1" id="moedaWarning" style="display: none;">⚠️ Erro - o correto seria EUR</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Seção I2-I8: Valores Base -->
+                        <div class="bg-gray-50 rounded-lg p-4 mb-4">
+                            <h5 class="font-medium text-gray-700 mb-3 flex items-center">
+                                <span class="mr-2">💰</span> Valores e IVA
+                            </h5>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">I2-I6 - Valores de IVA por Taxas</label>
+                                    <input type="text" id="valoresIVATaxas" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm" readonly>
+                                    <div class="text-xs text-gray-500 mt-1">Nenhum valor declarado nas taxas habituais</div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">I7 - Valor Base Isento ou Sujeito</label>
+                                    <input type="text" id="baseTributavel" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm" readonly>
+                                    <div class="text-xs text-gray-500 mt-1">Valor da base tributável</div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3 mt-3">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">I8 - Valor do IVA Calculado</label>
+                                    <input type="text" id="iva" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm" readonly>
+                                    <div class="text-xs text-gray-500 mt-1">IVA sobre a base</div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">N - Total de IVA</label>
+                                    <input type="text" id="totalIVA" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm" readonly>
+                                    <div class="text-xs text-gray-500 mt-1">Confirma o valor anterior</div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">O - Total com IVA</label>
+                                <input type="text" id="total" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm font-semibold bg-green-50" readonly>
+                                <div class="text-xs text-gray-500 mt-1">Soma: 12.20 + 2.80</div>
+                            </div>
+                        </div>
+
+                        <!-- Seção Q-R: Códigos e Motivos -->
+                        <div class="bg-gray-50 rounded-lg p-4 mb-4">
+                            <h5 class="font-medium text-gray-700 mb-3 flex items-center">
+                                <span class="mr-2">⚠️</span> Códigos de Isenção e Motivos
+                            </h5>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Q - Código de Isenção</label>
+                                    <input type="text" id="codigoIsencao" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm" readonly>
+                                    <div class="text-xs text-red-500 mt-1" id="codigoIsencaoWarning" style="display: none;">⚠️ Parece incorreto - códigos válidos são padronizados</div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">R - Motivo de Isenção (código AT)</label>
+                                    <input type="text" id="motivoIsencao" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm" readonly>
+                                    <div class="text-xs text-gray-500 mt-1">M88 = Isento - outras situações não previstas</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Additional Fields -->
+                        <div class="space-y-3 pt-4 border-t">
+                            <h5 class="font-medium text-gray-700">✏️ Campos Adicionais</h5>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Descrição/Observações</label>
+                                <textarea id="descricao" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm" rows="2" placeholder="Adicione uma descrição ou observações sobre esta fatura..."></textarea>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Referência Interna</label>
+                                <input type="text" id="referenciaInterna" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm" placeholder="Ex: PO-2024-001, Projeto X, etc.">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Centro de Custo</label>
+                                <select id="centroCusto" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm">
+                                    <option value="">Selecionar centro de custo...</option>
+                                    <option value="administrativo">Administrativo</option>
+                                    <option value="comercial">Comercial</option>
+                                    <option value="producao">Produção</option>
+                                    <option value="marketing">Marketing</option>
+                                    <option value="ti">Tecnologia da Informação</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column - Actions -->
+                    <div class="space-y-4">
+                        <h4 class="font-semibold text-gray-800 border-b pb-2">⚡ Ações Automáticas</h4>
+                        
+                        <!-- Banking Integration -->
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="flex items-center mb-3">
+                                <input type="checkbox" id="efetuarPagamento" class="mr-2">
+                                <label for="efetuarPagamento" class="font-medium text-gray-800">🏦 Efetuar pagamento via banco</label>
+                            </div>
+                            <div id="bankingOptions" class="ml-6 space-y-2" style="display: none;">
+                                <select id="bancoSelect" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm">
+                                    <option value="">Selecionar instituição bancária...</option>
+                                    <option value="caixa">Caixa Geral de Depósitos</option>
+                                    <option value="bcp">Millennium BCP</option>
+                                    <option value="santander">Santander</option>
+                                    <option value="bes">Novo Banco</option>
+                                    <option value="bpi">Banco BPI</option>
+                                    <option value="montepio">Montepio</option>
+                                </select>
+                                <input type="text" id="contaBancaria" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm" placeholder="Número da conta (opcional)">
+                                <div class="bg-blue-50 border border-blue-200 rounded p-3 text-sm">
+                                    <p class="font-medium text-blue-800 mb-2">💡 Detalhes pré-preenchidos:</p>
+                                    <div class="space-y-1 text-blue-700">
+                                        <div>Beneficiário: <span id="beneficiarioPreenchido" class="font-medium">-</span></div>
+                                        <div>IBAN: <span id="ibanPreenchido" class="font-medium">-</span></div>
+                                        <div>Valor: <span id="valorPreenchido" class="font-medium">-</span></div>
+                                        <div>Referência: <span id="referenciaPreenchida" class="font-medium">-</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- VAT Control -->
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="flex items-center mb-3">
+                                <input type="checkbox" id="registrarIVA" class="mr-2">
+                                <label for="registrarIVA" class="font-medium text-gray-800">📊 Registrar IVA recolhido pela adquirente</label>
+                            </div>
+                            <div id="ivaOptions" class="ml-6 space-y-2" style="display: none;">
+                                <select id="regimeIVA" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm">
+                                    <option value="">Selecionar regime de IVA...</option>
+                                    <option value="normal">Regime Normal</option>
+                                    <option value="simplificado">Regime Simplificado</option>
+                                    <option value="isento">Isento de IVA</option>
+                                    <option value="rc">Reverse Charge</option>
+                                </select>
+                                <div class="text-xs text-gray-600">
+                                    IVA será registrado automaticamente conforme o regime selecionado
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Accounting Categories -->
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="flex items-center mb-3">
+                                <input type="checkbox" id="categorizarFatura" class="mr-2">
+                                <label for="categorizarFatura" class="font-medium text-gray-800">🏷️ Categorizar fatura</label>
+                            </div>
+                            <div id="categoryOptions" class="ml-6 space-y-2" style="display: none;">
+                                <select id="categoriaContabil" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm">
+                                    <option value="">Selecionar categoria contábil...</option>
+                                    <option value="fornecimentos-servicos-externos">Fornecimentos e Serviços Externos</option>
+                                    <option value="mercadorias">Mercadorias</option>
+                                    <option value="materias-primas">Matérias-primas</option>
+                                    <option value="equipamentos">Equipamentos</option>
+                                    <option value="servicos-profissionais">Serviços Profissionais</option>
+                                    <option value="marketing-publicidade">Marketing e Publicidade</option>
+                                    <option value="viagens-deslocacoes">Viagens e Deslocações</option>
+                                    <option value="comunicacoes">Comunicações</option>
+                                    <option value="seguros">Seguros</option>
+                                    <option value="outros">Outros</option>
+                                </select>
+                                <input type="text" id="tagsPersonalizadas" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm" placeholder="Tags personalizadas (separadas por vírgula)">
+                                <div class="bg-yellow-50 border border-yellow-200 rounded p-3 text-sm">
+                                    <p class="font-medium text-yellow-800 mb-1">💡 Sugestão automática:</p>
+                                    <p id="sugestaoCategoria" class="text-yellow-700">Categoria será sugerida com base no valor e fornecedor</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Accounts Payable -->
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="flex items-center mb-3">
+                                <input type="checkbox" id="contasPagar" class="mr-2">
+                                <label for="contasPagar" class="font-medium text-gray-800">📝 Lançar documento em contas a pagar</label>
+                            </div>
+                            <div id="payableOptions" class="ml-6 space-y-2" style="display: none;">
+                                <input type="date" id="dataVencimento" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm">
+                                <label class="text-xs text-gray-600">Data de vencimento</label>
+                            </div>
+                        </div>
+
+                        <!-- Payment Attachment -->
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="flex items-center mb-3">
+                                <input type="checkbox" id="anexarComprovativo" class="mr-2">
+                                <label for="anexarComprovativo" class="font-medium text-gray-800">📎 Anexar comprovativo após pagamento</label>
+                            </div>
+                            <div class="ml-6 text-xs text-gray-600">
+                                Sistema irá solicitar anexo do comprovativo após confirmação do pagamento
+                            </div>
+                        </div>
+
+                        <!-- Notifications -->
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="flex items-center mb-3">
+                                <input type="checkbox" id="criarAlerta" class="mr-2">
+                                <label for="criarAlerta" class="font-medium text-gray-800">🔔 Criar alerta de vencimento/recibo</label>
+                            </div>
+                            <div id="alertOptions" class="ml-6 space-y-3" style="display: none;">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Tipo de Alerta</label>
+                                    <select id="tipoAlerta" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm">
+                                        <option value="vencimento">Alerta de vencimento</option>
+                                        <option value="reconciliacao">Alerta de reconciliação</option>
+                                        <option value="pagamento">Alerta de pagamento</option>
+                                        <option value="ambos">Todos os alertas</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Antecedência</label>
+                                    <select id="antecedenciaAlerta" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm">
+                                        <option value="1">1 dia antes</option>
+                                        <option value="3">3 dias antes</option>
+                                        <option value="7">7 dias antes</option>
+                                        <option value="15">15 dias antes</option>
+                                        <option value="30">30 dias antes</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Método de Notificação</label>
+                                    <div class="space-y-2">
+                                        <label class="flex items-center">
+                                            <input type="checkbox" id="alertEmail" class="mr-2" checked>
+                                            <span class="text-sm">📧 Email</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" id="alertSMS" class="mr-2">
+                                            <span class="text-sm">📱 SMS</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" id="alertPush" class="mr-2" checked>
+                                            <span class="text-sm">🔔 Notificação Push</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div id="alertPreview" class="bg-blue-50 border border-blue-200 rounded-md p-3 text-sm">
+                                    <div class="font-medium text-blue-800 mb-1">Preview do Alerta:</div>
+                                    <div id="alertPreviewText" class="text-blue-700"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex justify-between items-center pt-6 border-t">
+                    <button id="cancelProcessing" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg">
+                        Cancelar
+                    </button>
+                    <div class="flex gap-3">
+                        <button id="saveAsDraft" class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-2 rounded-lg">
+                            💾 Salvar como Rascunho
+                        </button>
+                        <button id="processInvoice" class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg font-semibold">
+                            🚀 Processar Fatura
+                        </button>
+                    </div>
+                </div>
+            </div>
+
             <!-- Statistics -->
             <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
                 <h3 class="text-xl font-semibold text-gray-800 mb-4">Estatísticas do Scanner</h3>
@@ -114,27 +498,124 @@
             <!-- Debug Log -->
             <div class="bg-white rounded-2xl shadow-lg p-6">
                 <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-semibold text-gray-800">Debug Log</h2>
+                    <h2 class="text-xl font-semibold text-gray-800">Debug Log & System Analysis</h2>
                     <div class="flex gap-2">
                         <button id="clearLog" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded text-sm">Limpar Log</button>
                         <button id="exportLog" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded text-sm">Exportar Log</button>
+                        <button id="generateReport" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded text-sm">Gerar Relatório</button>
                     </div>
-                </div>
-                <div id="debugLog" class="bg-gray-50 rounded-lg p-4 h-48 overflow-y-auto font-mono text-sm">
-                    <div class="text-gray-600">[INFO] Debug log iniciado - QR Code Reader Service</div>
-                    <div class="text-gray-600">[INFO] Sistema pronto para processar imagens</div>
                 </div>
                 
-                <!-- System Status -->
-                <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <span class="text-sm text-gray-600">Status do Sistema</span>
-                        <div class="text-green-600 font-medium">✓ Online</div>
+                <!-- Log Filters -->
+                <div class="mb-4 flex flex-wrap gap-2">
+                    <button class="log-filter active bg-gray-800 text-white px-3 py-1 rounded text-xs" data-level="all">Todos</button>
+                    <button class="log-filter bg-gray-200 text-gray-700 px-3 py-1 rounded text-xs" data-level="info">Info</button>
+                    <button class="log-filter bg-green-200 text-green-700 px-3 py-1 rounded text-xs" data-level="success">Sucesso</button>
+                    <button class="log-filter bg-yellow-200 text-yellow-700 px-3 py-1 rounded text-xs" data-level="warning">Avisos</button>
+                    <button class="log-filter bg-red-200 text-red-700 px-3 py-1 rounded text-xs" data-level="error">Erros</button>
+                    <button class="log-filter bg-blue-200 text-blue-700 px-3 py-1 rounded text-xs" data-level="debug">Debug</button>
+                </div>
+                
+                <div id="debugLog" class="bg-gray-50 rounded-lg p-4 h-64 overflow-y-auto font-mono text-sm border">
+                    <div class="text-gray-600 log-entry" data-level="info" data-timestamp="2024-01-01T00:00:00.000Z">
+                        <span class="timestamp">[00:00:00.000]</span> 
+                        <span class="level">[INFO]</span> 
+                        <span class="message">Debug log iniciado - QR Code Reader Service v2.0</span>
+                        <span class="context" data-context='{"version":"2.0","browser":"Chrome","userAgent":"Mozilla/5.0"}'></span>
                     </div>
-                    <div>
-                        <span class="text-sm text-gray-600">Última Operação</span>
-                        <div id="lastOperation" class="text-gray-800 font-medium">Aguardando...</div>
+                    <div class="text-gray-600 log-entry" data-level="info" data-timestamp="2024-01-01T00:00:00.100Z">
+                        <span class="timestamp">[00:00:00.100]</span> 
+                        <span class="level">[INFO]</span> 
+                        <span class="message">Sistema pronto para processar imagens</span>
+                        <span class="context" data-context='{"capabilities":["camera","qr","processing"]}'></span>
                     </div>
+                </div>
+                
+                <!-- Enhanced System Status -->
+                <div class="mt-4 grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="bg-green-50 border border-green-200 rounded-lg p-3">
+                        <span class="text-sm text-green-600 font-medium">Status do Sistema</span>
+                        <div id="systemStatus" class="text-green-700 font-bold">✓ Online</div>
+                        <div class="text-xs text-green-600 mt-1" id="uptime">Uptime: 00:00:00</div>
+                    </div>
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                        <span class="text-sm text-blue-600 font-medium">Última Operação</span>
+                        <div id="lastOperation" class="text-blue-700 font-bold">Aguardando...</div>
+                        <div class="text-xs text-blue-600 mt-1" id="lastOperationTime">--:--:--</div>
+                    </div>
+                    <div class="bg-purple-50 border border-purple-200 rounded-lg p-3">
+                        <span class="text-sm text-purple-600 font-medium">Performance</span>
+                        <div id="performanceMetrics" class="text-purple-700 font-bold">CPU: 0% | RAM: 0MB</div>
+                        <div class="text-xs text-purple-600 mt-1" id="processingTime">Tempo médio: 0ms</div>
+                    </div>
+                    <div class="bg-orange-50 border border-orange-200 rounded-lg p-3">
+                        <span class="text-sm text-orange-600 font-medium">Estatísticas</span>
+                        <div id="sessionStats" class="text-orange-700 font-bold">QRs: 0 | Erros: 0</div>
+                        <div class="text-xs text-orange-600 mt-1" id="successRate">Taxa sucesso: 100%</div>
+                    </div>
+                </div>
+
+                <!-- Technical Details for LLM Analysis -->
+                <div class="mt-4">
+                    <details class="bg-gray-100 rounded-lg">
+                        <summary class="p-3 cursor-pointer font-medium text-gray-700 hover:bg-gray-200 rounded-lg">
+                            🔧 Detalhes Técnicos para Análise (LLM/Ferramentas)
+                        </summary>
+                        <div class="p-4 border-t bg-white">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <h4 class="font-semibold text-gray-800 mb-2">Environment Info</h4>
+                                    <pre id="envInfo" class="bg-gray-50 p-2 rounded text-xs overflow-auto">
+{
+  "userAgent": "Loading...",
+  "platform": "Loading...",
+  "language": "Loading...",
+  "cookieEnabled": false,
+  "onLine": true,
+  "hardwareConcurrency": 0,
+  "deviceMemory": 0
+}
+                                    </pre>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800 mb-2">Camera Capabilities</h4>
+                                    <pre id="cameraInfo" class="bg-gray-50 p-2 rounded text-xs overflow-auto">
+{
+  "available": false,
+  "permissions": "unknown",
+  "constraints": {},
+  "activeStream": null,
+  "supportedFormats": []
+}
+                                    </pre>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800 mb-2">QR Processing Stats</h4>
+                                    <pre id="qrStats" class="bg-gray-50 p-2 rounded text-xs overflow-auto">
+{
+  "totalScanned": 0,
+  "successfulReads": 0,
+  "failedReads": 0,
+  "averageProcessingTime": 0,
+  "lastQRData": null,
+  "errorPatterns": []
+}
+                                    </pre>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800 mb-2">Error Analysis</h4>
+                                    <pre id="errorAnalysis" class="bg-gray-50 p-2 rounded text-xs overflow-auto">
+{
+  "recentErrors": [],
+  "errorFrequency": {},
+  "criticalIssues": [],
+  "suggestedFixes": []
+}
+                                    </pre>
+                                </div>
+                            </div>
+                        </div>
+                    </details>
                 </div>
             </div>
         </div>
@@ -199,11 +680,59 @@
                 document.getElementById('fileInput').addEventListener('change', (e) => this.handleFileUpload(e));
                 document.getElementById('clearLog').addEventListener('click', () => this.clearLog());
                 document.getElementById('exportLog').addEventListener('click', () => this.exportLog());
+                document.getElementById('generateReport').addEventListener('click', () => this.generateDebugReport());
+                
+                // Debug log filter buttons
+                document.querySelectorAll('.log-filter').forEach(button => {
+                    button.addEventListener('click', (e) => this.filterLogs(e.target.dataset.level));
+                });
                 
                 const copyBtn = document.getElementById('copyBtn');
                 const downloadBtn = document.getElementById('downloadBtn');
                 if (copyBtn) copyBtn.addEventListener('click', () => this.copyToClipboard());
                 if (downloadBtn) downloadBtn.addEventListener('click', () => this.downloadResult());
+                
+                // Invoice Processing Events
+                this.bindInvoiceProcessingEvents();
+            }
+
+            bindInvoiceProcessingEvents() {
+                // Checkbox toggles for showing/hiding options
+                document.getElementById('efetuarPagamento').addEventListener('change', (e) => {
+                    document.getElementById('bankingOptions').style.display = e.target.checked ? 'block' : 'none';
+                });
+
+                document.getElementById('registrarIVA').addEventListener('change', (e) => {
+                    document.getElementById('ivaOptions').style.display = e.target.checked ? 'block' : 'none';
+                });
+
+                document.getElementById('categorizarFatura').addEventListener('change', (e) => {
+                    document.getElementById('categoryOptions').style.display = e.target.checked ? 'block' : 'none';
+                });
+
+                document.getElementById('contasPagar').addEventListener('change', (e) => {
+                    document.getElementById('payableOptions').style.display = e.target.checked ? 'block' : 'none';
+                });
+
+                document.getElementById('criarAlerta').addEventListener('change', (e) => {
+                    document.getElementById('alertOptions').style.display = e.target.checked ? 'block' : 'none';
+                    if (e.target.checked) {
+                        this.updateAlertPreview();
+                    }
+                });
+
+                // Add event listeners for alert preview updates
+                ['tipoAlerta', 'antecedenciaAlerta', 'alertEmail', 'alertSMS', 'alertPush'].forEach(id => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        element.addEventListener('change', () => this.updateAlertPreview());
+                    }
+                });
+
+                // Action buttons
+                document.getElementById('cancelProcessing').addEventListener('click', () => this.cancelInvoiceProcessing());
+                document.getElementById('saveAsDraft').addEventListener('click', () => this.saveInvoiceAsDraft());
+                document.getElementById('processInvoice').addEventListener('click', () => this.processInvoiceData());
             }
 
             async startCamera() {
@@ -408,6 +937,11 @@
                     this.log('Dados normalizados conforme padrão AT (chaves convertidas para maiúsculas)', 'warning');
                 }
                 
+                // Check if it's an AT invoice and show processing interface
+                if (this.isATInvoice(finalData)) {
+                    this.showInvoiceProcessingInterface(finalData);
+                }
+                
                 document.getElementById('lastOperation').textContent = `Sucesso - ${new Date().toLocaleTimeString()}`;
             }
 
@@ -508,7 +1042,361 @@
                     document.getElementById('errorMessage').textContent = content;
                     errorDiv.classList.remove('hidden');
                     successDiv.classList.add('hidden');
+                    this.hideInvoiceProcessingInterface();
                 }
+            }
+
+            isATInvoice(content) {
+                // Check if the content contains AT invoice patterns
+                return content.includes('A:') || content.includes('B:') || content.includes('C:') || 
+                       content.includes('D:') || content.includes('E:') || content.includes('F:') ||
+                       content.includes('G:') || content.includes('H:') || content.includes('I:');
+            }
+
+            showInvoiceProcessingInterface(qrContent) {
+                const invoiceInterface = document.getElementById('invoiceProcessing');
+                invoiceInterface.style.display = 'block';
+                
+                // Auto-fill form with QR data
+                this.autoFillInvoiceForm(qrContent);
+                
+                this.log('Interface de processamento de fatura exibida', 'info');
+            }
+
+            hideInvoiceProcessingInterface() {
+                const invoiceInterface = document.getElementById('invoiceProcessing');
+                invoiceInterface.style.display = 'none';
+                
+                // Reset form
+                this.resetInvoiceForm();
+            }
+
+            autoFillInvoiceForm(qrContent) {
+                try {
+                    const invoiceData = this.parseATInvoiceData(qrContent);
+                    
+                    // Identificação das Partes
+                    document.getElementById('nifEmitente').value = invoiceData.nifEmitente || '';
+                    document.getElementById('nifAdquirente').value = invoiceData.nifAdquirente || '';
+                    document.getElementById('paisEmitente').value = invoiceData.paisEmitente || '';
+                    document.getElementById('paisAdquirente').value = invoiceData.paisAdquirente || '';
+                    document.getElementById('tipoAdquirente').value = invoiceData.tipoAdquirente || '';
+                    
+                    // Dados do Documento
+                    document.getElementById('dataFatura').value = invoiceData.dataFatura || '';
+                    document.getElementById('tipoDocumento').value = invoiceData.tipoDocumento || '';
+                    document.getElementById('numeroDocumento').value = invoiceData.numeroDocumento || '';
+                    document.getElementById('codigoDocumento').value = invoiceData.codigoDocumento || '';
+                    
+                    // Valores e IVA
+                    document.getElementById('moeda').value = invoiceData.moeda || '';
+                    document.getElementById('valoresIVATaxas').value = invoiceData.valoresIVATaxas || '';
+                    document.getElementById('baseTributavel').value = invoiceData.baseTributavel || '';
+                    document.getElementById('iva').value = invoiceData.iva || '';
+                    document.getElementById('total').value = invoiceData.total || '';
+                    document.getElementById('totalIVA').value = invoiceData.totalIVA || '';
+                    document.getElementById('retencao').value = invoiceData.retencao || '';
+                    
+                    // IVA por Taxa
+                    document.getElementById('baseIva6').value = invoiceData.baseIva6 || '';
+                    document.getElementById('iva6').value = invoiceData.iva6 || '';
+                    document.getElementById('baseIva13').value = invoiceData.baseIva13 || '';
+                    document.getElementById('iva13').value = invoiceData.iva13 || '';
+                    document.getElementById('baseIva23').value = invoiceData.baseIva23 || '';
+                    document.getElementById('iva23').value = invoiceData.iva23 || '';
+                    
+                    // Códigos de Isenção e Motivos
+                    document.getElementById('ivaIsento').value = invoiceData.ivaIsento || '';
+                    document.getElementById('ivaRegimeEspecial').value = invoiceData.ivaRegimeEspecial || '';
+                    document.getElementById('codigoIsencao').value = invoiceData.codigoIsencao || '';
+                    document.getElementById('motivoIsencao').value = invoiceData.motivoIsencao || '';
+                    
+                    // Campos Adicionais
+                    document.getElementById('nomeEmitente').value = invoiceData.nomeEmitente || '';
+                    document.getElementById('moradaEmitente').value = invoiceData.moradaEmitente || '';
+                    document.getElementById('iban').value = invoiceData.iban || '';
+                    
+                    // Set default values for additional fields
+                    document.getElementById('descricao').value = invoiceData.descricao || `Fatura ${invoiceData.tipoDocumento || 'AT'} - ${invoiceData.dataFatura || new Date().toLocaleDateString()}`;
+                    document.getElementById('referenciaInterna').value = `REF-${Date.now()}`;
+                    
+                    // Auto-set due date (30 days from invoice date)
+                    if (invoiceData.dataFatura) {
+                        const invoiceDate = new Date(invoiceData.dataFatura);
+                        const dueDate = new Date(invoiceDate);
+                        dueDate.setDate(dueDate.getDate() + 30);
+                        document.getElementById('dataVencimento').value = dueDate.toISOString().split('T')[0];
+                    }
+                    
+                    // Pre-fill banking details if available in QR data
+                    this.preFillBankingDetails(invoiceData);
+                    
+                    // Auto-suggest accounting category based on NIF and amount
+                    this.suggestAccountingCategory(invoiceData);
+                    
+                    // Auto-enable relevant options based on invoice data
+                    this.autoEnableRelevantOptions(invoiceData);
+                    
+                    this.log('Formulário preenchido automaticamente com dados do QR', 'success');
+                } catch (error) {
+                    this.log(`Erro ao preencher formulário: ${error.message}`, 'error');
+                }
+            }
+
+            parseATInvoiceData(qrContent) {
+                const data = {};
+                const lines = qrContent.split('*');
+                
+                // Store raw content for additional processing
+                data.rawContent = qrContent;
+                
+                lines.forEach(line => {
+                    // Convert to uppercase for consistent processing
+                    const upperLine = line.toUpperCase();
+                    
+                    // A-E: Identification fields
+                    if (upperLine.includes('A:')) data.nifEmitente = upperLine.replace('A:', '').trim();
+                    if (upperLine.includes('B:')) data.nifAdquirente = upperLine.replace('B:', '').trim();
+                    if (upperLine.includes('C:')) data.paisEmitente = upperLine.replace('C:', '').trim();
+                    if (upperLine.includes('D:')) data.paisAdquirente = upperLine.replace('D:', '').trim();
+                    if (upperLine.includes('E:')) data.tipoAdquirente = upperLine.replace('E:', '').trim();
+                    
+                    // F-H: Document fields
+                    if (upperLine.includes('F:')) {
+                        const rawDate = upperLine.replace('F:', '').trim();
+                        // Format date from YYYYMMDD to YYYY-MM-DD
+                        if (/^\d{8}$/.test(rawDate)) {
+                            const year = rawDate.substring(0, 4);
+                            const month = rawDate.substring(4, 6);
+                            const day = rawDate.substring(6, 8);
+                            data.dataFatura = `${year}-${month}-${day}`;
+                        } else {
+                            data.dataFatura = rawDate;
+                        }
+                    }
+                    if (upperLine.includes('G:')) data.numeroDocumento = upperLine.replace('G:', '').trim();
+                    if (upperLine.includes('H:')) data.codigoDocumento = upperLine.replace('H:', '').trim();
+                    
+                    // Document type mapping (from D field)
+                    if (upperLine.includes('D:')) {
+                        const docType = upperLine.replace('D:', '').trim();
+                        const documentTypes = {
+                            'FR': 'Fatura-Recibo',
+                            'FT': 'Fatura',
+                            'NC': 'Nota de Crédito',
+                            'ND': 'Nota de Débito',
+                            'VD': 'Venda a Dinheiro',
+                            'TV': 'Talão de Venda',
+                            'TD': 'Talão de Devolução',
+                            'AA': 'Alienação de Ativos',
+                            'DA': 'Devolução de Ativos'
+                        };
+                        data.tipoDocumento = documentTypes[docType] || docType;
+                    }
+                    
+                    // I1-I8: Tax and value fields
+                    if (upperLine.includes('I1:')) data.moeda = upperLine.replace('I1:', '').trim();
+                    if (upperLine.includes('I2:')) data.valoresIVATaxas = upperLine.replace('I2:', '').trim();
+                    if (upperLine.includes('I3:')) data.ivaIsento = upperLine.replace('I3:', '').trim();
+                    if (upperLine.includes('I4:')) data.ivaRegimeEspecial = upperLine.replace('I4:', '').trim();
+                    if (upperLine.includes('I5:')) data.total = upperLine.replace('I5:', '').trim();
+                    if (upperLine.includes('I6:')) data.retencao = upperLine.replace('I6:', '').trim();
+                    if (upperLine.includes('I7:')) data.baseTributavel = upperLine.replace('I7:', '').trim();
+                    if (upperLine.includes('I8:')) data.iva = upperLine.replace('I8:', '').trim();
+                    
+                    // J1-J6: Additional IVA rates
+                    if (upperLine.includes('J1:')) data.baseIva6 = upperLine.replace('J1:', '').trim();
+                    if (upperLine.includes('J2:')) data.iva6 = upperLine.replace('J2:', '').trim();
+                    if (upperLine.includes('J3:')) data.baseIva13 = upperLine.replace('J3:', '').trim();
+                    if (upperLine.includes('J4:')) data.iva13 = upperLine.replace('J4:', '').trim();
+                    if (upperLine.includes('J5:')) data.baseIva23 = upperLine.replace('J5:', '').trim();
+                    if (upperLine.includes('J6:')) data.iva23 = upperLine.replace('J6:', '').trim();
+                    
+                    // N-O: Total fields
+                    if (upperLine.includes('N:')) data.totalIVA = upperLine.replace('N:', '').trim();
+                    if (upperLine.includes('O:')) data.total = upperLine.replace('O:', '').trim();
+                    
+                    // Q-R: Exemption codes
+                    if (upperLine.includes('Q:')) data.codigoIsencao = upperLine.replace('Q:', '').trim();
+                    if (upperLine.includes('R:')) data.motivoIsencao = upperLine.replace('R:', '').trim();
+                    
+                    // Additional fields that might be present
+                    if (line.includes('K:')) data.nomeEmitente = line.replace('K:', '').trim();
+                    if (line.includes('L:')) data.moradaEmitente = line.replace('L:', '').trim();
+                    if (line.includes('M:')) data.iban = line.replace('M:', '').trim();
+                    if (line.includes('N:')) data.descricao = line.replace('N:', '').trim();
+                });
+                
+                // Try to extract company name from NIF if not directly available
+                if (!data.nomeEmitente && data.nifEmitente) {
+                    data.nomeEmitente = this.lookupCompanyByNIF(data.nifEmitente);
+                }
+                
+                return data;
+            }
+
+            // Lookup company name by NIF (simplified version)
+            lookupCompanyByNIF(nif) {
+                // In a real implementation, this would query a database or API
+                // For now, return a placeholder based on NIF patterns
+                const commonCompanies = {
+                    '500000000': 'EDP - Energias de Portugal',
+                    '501442600': 'Vodafone Portugal',
+                    '502011475': 'NOS Comunicações',
+                    '503504564': 'MEO - Serviços de Comunicações',
+                    '500769405': 'Galp Energia'
+                };
+                
+                return commonCompanies[nif] || null;
+            }
+
+            resetInvoiceForm() {
+                // Reset all form fields
+                const inputs = document.querySelectorAll('#invoiceProcessing input, #invoiceProcessing select, #invoiceProcessing textarea');
+                inputs.forEach(input => {
+                    if (input.type === 'checkbox') {
+                        input.checked = false;
+                    } else {
+                        input.value = '';
+                    }
+                });
+                
+                // Hide all option sections
+                document.getElementById('bankingOptions').style.display = 'none';
+                document.getElementById('ivaOptions').style.display = 'none';
+                document.getElementById('categoryOptions').style.display = 'none';
+                document.getElementById('payableOptions').style.display = 'none';
+                document.getElementById('alertOptions').style.display = 'none';
+            }
+
+            cancelInvoiceProcessing() {
+                this.hideInvoiceProcessingInterface();
+                this.log('Processamento de fatura cancelado', 'info');
+            }
+
+            saveInvoiceAsDraft() {
+                const invoiceData = this.collectInvoiceData();
+                
+                // Save to localStorage as draft
+                const drafts = JSON.parse(localStorage.getItem('invoiceDrafts') || '[]');
+                drafts.push({
+                    ...invoiceData,
+                    id: Date.now(),
+                    createdAt: new Date().toISOString(),
+                    status: 'draft'
+                });
+                localStorage.setItem('invoiceDrafts', JSON.stringify(drafts));
+                
+                this.log('Fatura salva como rascunho', 'success');
+                this.hideInvoiceProcessingInterface();
+            }
+
+            async processInvoiceData() {
+                try {
+                    const invoiceData = this.collectInvoiceData();
+                    const enabledIntegrations = this.getEnabledIntegrations();
+
+                    this.log('Iniciando processamento da fatura...', 'info');
+
+                    // Validate required fields
+                    if (!this.validateInvoiceData(invoiceData)) {
+                        this.log('Dados da fatura incompletos', 'error');
+                        return;
+                    }
+
+                    // Process each enabled integration
+                    const results = {
+                        invoice: invoiceData,
+                        integrations: {},
+                        timestamp: new Date().toISOString()
+                    };
+
+                    if (enabledIntegrations.banking) {
+                        results.integrations.banking = await this.processBankingIntegration(invoiceData);
+                    }
+
+                    if (enabledIntegrations.iva) {
+                        results.integrations.iva = this.processIVAControl(invoiceData);
+                    }
+
+                    if (enabledIntegrations.accounting) {
+                        results.integrations.accounting = this.processAccountingCategory(invoiceData);
+                    }
+
+                    if (enabledIntegrations.payable) {
+                        results.integrations.payable = this.processAccountsPayable(invoiceData);
+                    }
+
+                    if (enabledIntegrations.alerts) {
+                        results.integrations.alerts = this.processAlerts(invoiceData);
+                    }
+
+                    // Save processed invoice
+                    this.saveProcessedInvoice(results);
+
+                    // Show success message with integration results
+                    this.showProcessingResults(results);
+
+                    // Hide processing interface
+                    this.hideInvoiceProcessingInterface();
+
+                    this.log('Fatura processada com sucesso!', 'success');
+
+                } catch (error) {
+                    this.log(`Erro no processamento: ${error.message}`, 'error');
+                }
+            }
+
+            collectInvoiceData() {
+                return {
+                    // Basic invoice data
+                    nifEmitente: document.getElementById('nifEmitente').value,
+                    nifAdquirente: document.getElementById('nifAdquirente').value,
+                    dataFatura: document.getElementById('dataFatura').value,
+                    tipoDocumento: document.getElementById('tipoDocumento').value,
+                    baseTributavel: document.getElementById('baseTributavel').value,
+                    iva: document.getElementById('iva').value,
+                    total: document.getElementById('total').value,
+                    
+                    // Additional fields
+                    descricao: document.getElementById('descricao').value,
+                    referenciaInterna: document.getElementById('referenciaInterna').value,
+                    centroCusto: document.getElementById('centroCusto').value,
+                    
+                    // Actions
+                    actions: {
+                        efetuarPagamento: document.getElementById('efetuarPagamento').checked,
+                        registrarIVA: document.getElementById('registrarIVA').checked,
+                        categorizarFatura: document.getElementById('categorizarFatura').checked,
+                        contasPagar: document.getElementById('contasPagar').checked,
+                        anexarComprovativo: document.getElementById('anexarComprovativo').checked,
+                        criarAlerta: document.getElementById('criarAlerta').checked
+                    },
+                    
+                    // Options data
+                    banking: {
+                        banco: document.getElementById('bancoSelect').value,
+                        conta: document.getElementById('contaBancaria').value
+                    },
+                    
+                    iva: {
+                        regime: document.getElementById('regimeIVA').value
+                    },
+                    
+                    category: {
+                        categoria: document.getElementById('categoriaContabil').value,
+                        tags: document.getElementById('tagsPersonalizadas').value
+                    },
+                    
+                    payable: {
+                        dataVencimento: document.getElementById('dataVencimento').value
+                    },
+                    
+                    alert: {
+                        tipo: document.getElementById('tipoAlerta').value,
+                        antecedencia: document.getElementById('antecedenciaAlerta').value
+                    }
+                };
             }
 
             copyToClipboard() {
@@ -548,10 +1436,148 @@
                 this.log('Log exportado como arquivo', 'success');
             }
 
-            log(message, type = 'info') {
+            // Pre-fill banking details from QR data
+            preFillBankingDetails(invoiceData) {
+                try {
+                    // Extract banking information from QR data if available
+                    const beneficiario = this.extractBeneficiario(invoiceData);
+                    const iban = this.extractIBAN(invoiceData);
+                    const valor = invoiceData.total || '';
+                    const referencia = this.generatePaymentReference(invoiceData);
+
+                    // Update pre-filled banking details display
+                    const beneficiarioEl = document.getElementById('beneficiarioPreenchido');
+                    const ibanEl = document.getElementById('ibanPreenchido');
+                    const valorEl = document.getElementById('valorPreenchido');
+                    const referenciaEl = document.getElementById('referenciaPreenchida');
+
+                    if (beneficiarioEl) beneficiarioEl.textContent = beneficiario || 'Não disponível';
+                    if (ibanEl) ibanEl.textContent = iban || 'Não disponível';
+                    if (valorEl) valorEl.textContent = valor ? `€${valor}` : 'Não disponível';
+                    if (referenciaEl) referenciaEl.textContent = referencia || 'Será gerada automaticamente';
+
+                    // Show/hide banking details section based on available data
+                    const bankingDetailsDiv = document.getElementById('bankingDetails');
+                    if (bankingDetailsDiv) {
+                        if (beneficiario || iban) {
+                            bankingDetailsDiv.style.display = 'block';
+                        } else {
+                            bankingDetailsDiv.style.display = 'none';
+                        }
+                    }
+
+                    this.log('Detalhes bancários pré-preenchidos', 'info');
+                } catch (error) {
+                    this.log(`Erro ao pré-preencher detalhes bancários: ${error.message}`, 'warning');
+                }
+            }
+
+            // Extract beneficiary name from invoice data
+            extractBeneficiario(invoiceData) {
+                // Try to extract company name from QR data or use NIF lookup
+                if (invoiceData.nomeEmitente) {
+                    return invoiceData.nomeEmitente;
+                }
+                if (invoiceData.nifEmitente) {
+                    const companyName = this.lookupCompanyByNIF(invoiceData.nifEmitente);
+                    return companyName || `Empresa NIF: ${invoiceData.nifEmitente}`;
+                }
+                return null;
+            }
+
+            // Extract IBAN from QR data if available
+            extractIBAN(invoiceData) {
+                // Check if IBAN is directly available in parsed data
+                if (invoiceData.iban) {
+                    return invoiceData.iban;
+                }
+                
+                // Look for IBAN pattern in raw QR content (Portuguese format)
+                if (invoiceData.rawContent) {
+                    const ibanPattern = /PT50\d{21}|PT\d{23}/g;
+                    const match = invoiceData.rawContent.match(ibanPattern);
+                    if (match) return match[0];
+                }
+                
+                // Try to extract from other common patterns
+                const commonIbanPatterns = [
+                    /IBAN[:\s]*([A-Z]{2}\d{2}[A-Z0-9]{4}\d{7}[A-Z0-9]{1,16})/i,
+                    /PT[0-9]{21}/g
+                ];
+                
+                for (const pattern of commonIbanPatterns) {
+                    const match = invoiceData.rawContent?.match(pattern);
+                    if (match) return match[1] || match[0];
+                }
+                
+                return null;
+            }
+
+            // Generate payment reference based on invoice data
+            generatePaymentReference(invoiceData) {
+                const nif = invoiceData.nifEmitente?.slice(-4) || '0000';
+                const docNumber = invoiceData.numeroDocumento?.slice(-3) || '000';
+                const date = invoiceData.dataFatura?.replace(/-/g, '').slice(-6) || new Date().toISOString().slice(0, 10).replace(/-/g, '').slice(-6);
+                return `${nif}${docNumber}${date}`;
+            }
+
+            // Update alert preview based on current settings
+            updateAlertPreview() {
+                try {
+                    const tipoAlerta = document.getElementById('tipoAlerta')?.value || 'vencimento';
+                    const antecedencia = document.getElementById('antecedenciaAlerta')?.value || '3';
+                    const email = document.getElementById('alertEmail')?.checked;
+                    const sms = document.getElementById('alertSMS')?.checked;
+                    const push = document.getElementById('alertPush')?.checked;
+
+                    const methods = [];
+                    if (email) methods.push('Email');
+                    if (sms) methods.push('SMS');
+                    if (push) methods.push('Push');
+
+                    const methodsText = methods.length > 0 ? methods.join(', ') : 'Nenhum método selecionado';
+                    
+                    let previewText = '';
+                    switch (tipoAlerta) {
+                        case 'vencimento':
+                            previewText = `Alerta de vencimento será enviado ${antecedencia} dias antes via ${methodsText}`;
+                            break;
+                        case 'reconciliacao':
+                            previewText = `Alerta de reconciliação será enviado ${antecedencia} dias antes via ${methodsText}`;
+                            break;
+                        case 'pagamento':
+                            previewText = `Alerta de pagamento será enviado ${antecedencia} dias antes via ${methodsText}`;
+                            break;
+                        case 'ambos':
+                            previewText = `Todos os alertas serão enviados ${antecedencia} dias antes via ${methodsText}`;
+                            break;
+                    }
+
+                    const previewElement = document.getElementById('alertPreviewText');
+                    if (previewElement) {
+                        previewElement.textContent = previewText;
+                    }
+                } catch (error) {
+                    this.log(`Erro ao atualizar preview do alerta: ${error.message}`, 'warning');
+                }
+            }
+
+            // Enhanced logging with structured data
+            log(message, type = 'info', context = {}) {
+                const timestamp = new Date().toISOString();
+                const timeString = new Date().toLocaleTimeString('pt-PT', { 
+                    hour12: false, 
+                    hour: '2-digit', 
+                    minute: '2-digit', 
+                    second: '2-digit',
+                    fractionalSecondDigits: 3
+                });
+                
                 const logContainer = document.getElementById('debugLog');
-                const timestamp = new Date().toLocaleTimeString();
                 const logEntry = document.createElement('div');
+                logEntry.className = `log-entry text-gray-600`;
+                logEntry.dataset.level = type;
+                logEntry.dataset.timestamp = timestamp;
                 
                 let icon = '';
                 let colorClass = '';
@@ -569,27 +1595,682 @@
                         icon = '⚠️';
                         colorClass = 'text-yellow-600';
                         break;
+                    case 'debug':
+                        icon = '🔧';
+                        colorClass = 'text-purple-600';
+                        break;
                     default:
                         icon = 'ℹ️';
                         colorClass = 'text-blue-600';
                 }
                 
-                logEntry.className = `log-entry ${colorClass} text-sm font-mono`;
-                logEntry.textContent = `${timestamp} [${type.toUpperCase()}] ${message}`;
+                logEntry.className += ` ${colorClass}`;
+                
+                logEntry.innerHTML = `
+                    <span class="timestamp">[${timeString}]</span> 
+                    <span class="level">[${type.toUpperCase()}]</span> 
+                    <span class="message">${message}</span>
+                    <span class="context" data-context='${JSON.stringify(context)}' style="display:none;"></span>
+                `;
                 
                 logContainer.appendChild(logEntry);
                 logContainer.scrollTop = logContainer.scrollHeight;
                 
-                // Manter apenas os últimos 100 logs
-                while (logContainer.children.length > 100) {
+                // Update statistics
+                this.updateSessionStats(type);
+                
+                // Update last operation
+                document.getElementById('lastOperation').textContent = message;
+                document.getElementById('lastOperationTime').textContent = timeString;
+                
+                // Store in session for analysis
+                if (!window.debugSession) {
+                    window.debugSession = {
+                        logs: [],
+                        stats: { info: 0, success: 0, warning: 0, error: 0, debug: 0 },
+                        startTime: Date.now()
+                    };
+                }
+                
+                window.debugSession.logs.push({
+                    timestamp,
+                    level: type,
+                    message,
+                    context
+                });
+                
+                // Manter apenas os últimos 200 logs
+                while (logContainer.children.length > 200) {
                     logContainer.removeChild(logContainer.firstChild);
                 }
+                
+                // Update technical details
+                this.updateTechnicalDetails();
+            }
+
+            // Enhanced debug functionality methods
+            clearLog() {
+                const debugLog = document.getElementById('debugLog');
+                debugLog.innerHTML = `
+                    <div class="text-gray-600 log-entry" data-level="info" data-timestamp="${new Date().toISOString()}">
+                        <span class="timestamp">[${new Date().toLocaleTimeString('pt-PT', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit', fractionalSecondDigits: 3 })}]</span> 
+                        <span class="level">[INFO]</span> 
+                        <span class="message">Log limpo - Sistema reiniciado</span>
+                        <span class="context" data-context='{"action":"clear","user":"manual"}' style="display:none;"></span>
+                    </div>
+                `;
+                
+                // Reset session stats
+                if (window.debugSession) {
+                    window.debugSession.logs = [];
+                    window.debugSession.stats = { info: 0, success: 0, warning: 0, error: 0, debug: 0 };
+                }
+                
+                this.updateSessionStats('info');
+            }
+
+            exportLog() {
+                const debugLog = document.getElementById('debugLog');
+                const logEntries = debugLog.querySelectorAll('.log-entry');
+                
+                let content = '=== QR CODE READER - DEBUG LOG EXPORT ===\n';
+                content += `Export Date: ${new Date().toISOString()}\n`;
+                content += `Session Duration: ${this.getSessionDuration()}\n`;
+                content += `Total Entries: ${logEntries.length}\n\n`;
+                
+                // Add environment info
+                content += '=== ENVIRONMENT INFO ===\n';
+                content += `User Agent: ${navigator.userAgent}\n`;
+                content += `Platform: ${navigator.platform}\n`;
+                content += `Language: ${navigator.language}\n`;
+                content += `Online: ${navigator.onLine}\n\n`;
+                
+                // Add log entries
+                content += '=== LOG ENTRIES ===\n';
+                logEntries.forEach(entry => {
+                    const timestamp = entry.dataset.timestamp;
+                    const level = entry.dataset.level;
+                    const message = entry.querySelector('.message').textContent;
+                    const contextEl = entry.querySelector('.context');
+                    const context = contextEl ? contextEl.dataset.context : '{}';
+                    
+                    content += `[${timestamp}] [${level.toUpperCase()}] ${message}\n`;
+                    if (context && context !== '{}') {
+                        content += `  Context: ${context}\n`;
+                    }
+                });
+                
+                // Add session statistics
+                if (window.debugSession) {
+                    content += '\n=== SESSION STATISTICS ===\n';
+                    content += JSON.stringify(window.debugSession.stats, null, 2);
+                }
+                
+                const blob = new Blob([content], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `qr-debug-log-${new Date().toISOString().split('T')[0]}.txt`;
+                a.click();
+                URL.revokeObjectURL(url);
+                
+                this.log('Log exportado com dados estruturados', 'success', { 
+                    entries: logEntries.length,
+                    format: 'structured'
+                });
+            }
+
+            generateDebugReport() {
+                const report = {
+                    timestamp: new Date().toISOString(),
+                    session: window.debugSession || {},
+                    environment: this.getEnvironmentInfo(),
+                    camera: this.getCameraInfo(),
+                    qrStats: this.getQRStats(),
+                    errorAnalysis: this.getErrorAnalysis(),
+                    performance: this.getPerformanceMetrics()
+                };
+                
+                const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `qr-system-report-${new Date().toISOString().split('T')[0]}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+                
+                this.log('Relatório completo do sistema gerado', 'success', { 
+                    reportSize: JSON.stringify(report).length,
+                    sections: Object.keys(report).length
+                });
+            }
+
+            filterLogs(level) {
+                const logEntries = document.querySelectorAll('.log-entry');
+                const filterButtons = document.querySelectorAll('.log-filter');
+                
+                // Update button states
+                filterButtons.forEach(btn => {
+                    btn.classList.remove('active', 'bg-gray-800', 'text-white');
+                    btn.classList.add('bg-gray-200', 'text-gray-700');
+                });
+                
+                const activeButton = document.querySelector(`[data-level="${level}"]`);
+                if (activeButton) {
+                    activeButton.classList.remove('bg-gray-200', 'text-gray-700');
+                    activeButton.classList.add('active', 'bg-gray-800', 'text-white');
+                }
+                
+                // Filter entries
+                logEntries.forEach(entry => {
+                    if (level === 'all' || entry.dataset.level === level) {
+                        entry.style.display = 'block';
+                    } else {
+                        entry.style.display = 'none';
+                    }
+                });
+                
+                this.log(`Filtro aplicado: ${level}`, 'debug', { filter: level });
+            }
+
+            updateSessionStats(level) {
+                if (!window.debugSession) return;
+                
+                window.debugSession.stats[level] = (window.debugSession.stats[level] || 0) + 1;
+                
+                const total = Object.values(window.debugSession.stats).reduce((a, b) => a + b, 0);
+                const errors = window.debugSession.stats.error || 0;
+                const successRate = total > 0 ? Math.round(((total - errors) / total) * 100) : 100;
+                
+                document.getElementById('sessionStats').textContent = 
+                    `QRs: ${window.debugSession.stats.success || 0} | Erros: ${errors}`;
+                document.getElementById('successRate').textContent = 
+                    `Taxa sucesso: ${successRate}%`;
+                
+                // Update uptime
+                document.getElementById('uptime').textContent = 
+                    `Uptime: ${this.getSessionDuration()}`;
+            }
+
+            getSessionDuration() {
+                if (!window.debugSession) return '00:00:00';
+                
+                const duration = Date.now() - window.debugSession.startTime;
+                const hours = Math.floor(duration / 3600000);
+                const minutes = Math.floor((duration % 3600000) / 60000);
+                const seconds = Math.floor((duration % 60000) / 1000);
+                
+                return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+
+            getEnvironmentInfo() {
+                return {
+                    userAgent: navigator.userAgent,
+                    platform: navigator.platform,
+                    language: navigator.language,
+                    cookieEnabled: navigator.cookieEnabled,
+                    onLine: navigator.onLine,
+                    hardwareConcurrency: navigator.hardwareConcurrency || 0,
+                    deviceMemory: navigator.deviceMemory || 0,
+                    connection: navigator.connection ? {
+                        effectiveType: navigator.connection.effectiveType,
+                        downlink: navigator.connection.downlink,
+                        rtt: navigator.connection.rtt
+                    } : null
+                };
+            }
+
+            getCameraInfo() {
+                return {
+                    available: !!navigator.mediaDevices,
+                    permissions: 'unknown',
+                    constraints: this.currentConstraints || {},
+                    activeStream: !!this.stream,
+                    supportedFormats: ['video/mp4', 'image/jpeg', 'image/png']
+                };
+            }
+
+            getQRStats() {
+                const session = window.debugSession || {};
+                const logs = session.logs || [];
+                
+                const qrLogs = logs.filter(log => 
+                    log.message.includes('QR') || 
+                    log.message.includes('processamento') ||
+                    log.message.includes('leitura')
+                );
+                
+                return {
+                    totalScanned: qrLogs.filter(log => log.level === 'success').length,
+                    successfulReads: qrLogs.filter(log => log.message.includes('sucesso')).length,
+                    failedReads: qrLogs.filter(log => log.level === 'error').length,
+                    averageProcessingTime: 0,
+                    lastQRData: logs.find(log => log.context && log.context.qrData)?.context.qrData || null,
+                    errorPatterns: this.analyzeErrorPatterns(logs)
+                };
+            }
+
+            analyzeErrorPatterns(logs) {
+                const errors = logs.filter(log => log.level === 'error');
+                const patterns = {};
+                
+                errors.forEach(error => {
+                    const key = error.message.split(':')[0];
+                    patterns[key] = (patterns[key] || 0) + 1;
+                });
+                
+                return Object.entries(patterns)
+                    .sort(([,a], [,b]) => b - a)
+                    .slice(0, 5);
+            }
+
+            getErrorAnalysis() {
+                const session = window.debugSession || {};
+                const logs = session.logs || [];
+                const errors = logs.filter(log => log.level === 'error');
+                
+                return {
+                    recentErrors: errors.slice(-10).map(e => ({
+                        timestamp: e.timestamp,
+                        message: e.message,
+                        context: e.context
+                    })),
+                    errorFrequency: this.analyzeErrorPatterns(logs).reduce((acc, [pattern, count]) => {
+                        acc[pattern] = count;
+                        return acc;
+                    }, {}),
+                    criticalIssues: errors.filter(e => 
+                        e.message.includes('crítico') || 
+                        e.message.includes('fatal') ||
+                        e.message.includes('crash')
+                    ),
+                    suggestedFixes: this.generateSuggestedFixes(errors)
+                };
+            }
+
+            generateSuggestedFixes(errors) {
+                const fixes = [];
+                const errorMessages = errors.map(e => e.message.toLowerCase());
+                
+                if (errorMessages.some(msg => msg.includes('camera'))) {
+                    fixes.push('Verificar permissões da câmera no navegador');
+                }
+                
+                if (errorMessages.some(msg => msg.includes('qr'))) {
+                    fixes.push('Melhorar qualidade da imagem ou iluminação');
+                }
+                
+                if (errorMessages.some(msg => msg.includes('network') || msg.includes('fetch'))) {
+                    fixes.push('Verificar conexão de internet');
+                }
+                
+                return fixes;
+            }
+
+            getPerformanceMetrics() {
+                const memory = performance.memory || {};
+                
+                return {
+                    memory: {
+                        used: Math.round((memory.usedJSHeapSize || 0) / 1024 / 1024),
+                        total: Math.round((memory.totalJSHeapSize || 0) / 1024 / 1024),
+                        limit: Math.round((memory.jsHeapSizeLimit || 0) / 1024 / 1024)
+                    },
+                    timing: performance.timing ? {
+                        loadTime: performance.timing.loadEventEnd - performance.timing.navigationStart,
+                        domReady: performance.timing.domContentLoadedEventEnd - performance.timing.navigationStart
+                    } : null,
+                    navigation: performance.navigation ? {
+                        type: performance.navigation.type,
+                        redirectCount: performance.navigation.redirectCount
+                    } : null
+                };
+            }
+
+            updateTechnicalDetails() {
+                // Update environment info
+                const envInfo = document.getElementById('envInfo');
+                if (envInfo) {
+                    envInfo.textContent = JSON.stringify(this.getEnvironmentInfo(), null, 2);
+                }
+                
+                // Update camera info
+                const cameraInfo = document.getElementById('cameraInfo');
+                if (cameraInfo) {
+                    cameraInfo.textContent = JSON.stringify(this.getCameraInfo(), null, 2);
+                }
+                
+                // Update QR stats
+                const qrStats = document.getElementById('qrStats');
+                if (qrStats) {
+                    qrStats.textContent = JSON.stringify(this.getQRStats(), null, 2);
+                }
+                
+                // Update error analysis
+                const errorAnalysis = document.getElementById('errorAnalysis');
+                if (errorAnalysis) {
+                    errorAnalysis.textContent = JSON.stringify(this.getErrorAnalysis(), null, 2);
+                }
+                
+                // Update performance metrics
+                const performanceEl = document.getElementById('performanceMetrics');
+                if (performanceEl) {
+                    const metrics = this.getPerformanceMetrics();
+                    performanceEl.textContent = `CPU: N/A | RAM: ${metrics.memory.used}MB`;
+                }
+                
+                const processingTimeEl = document.getElementById('processingTime');
+                if (processingTimeEl) {
+                    const avgTime = window.debugSession?.averageProcessingTime || 0;
+                    processingTimeEl.textContent = `Tempo médio: ${avgTime}ms`;
+                }
+            }
+
+            // Suggest accounting category based on invoice data
+            suggestAccountingCategory(invoiceData) {
+                const categorySelect = document.getElementById('categoriaContabil');
+                const suggestionElement = document.getElementById('sugestaoCategoria');
+                if (!categorySelect) return;
+
+                const amount = parseFloat(invoiceData.total) || 0;
+                const nifEmitente = invoiceData.nifEmitente || '';
+                const description = invoiceData.descricao || '';
+
+                // Enhanced category suggestions based on multiple factors
+                let suggestedCategory = 'outros';
+                let reasoning = '';
+
+                // Amount-based suggestions
+                if (amount > 10000) {
+                    suggestedCategory = 'equipamentos';
+                    reasoning = 'Valor elevado - possível aquisição de equipamento';
+                } else if (amount > 5000) {
+                    suggestedCategory = 'fornecimentos-servicos-externos';
+                    reasoning = 'Valor médio-alto - serviços ou fornecimentos';
+                } else if (amount > 1000) {
+                    suggestedCategory = 'servicos-profissionais';
+                    reasoning = 'Valor médio - serviços profissionais';
+                } else if (amount < 100) {
+                    suggestedCategory = 'comunicacoes';
+                    reasoning = 'Valor baixo - comunicações ou despesas menores';
+                }
+
+                // NIF pattern analysis (Portuguese business patterns)
+                if (nifEmitente.startsWith('5')) {
+                    suggestedCategory = 'servicos-profissionais';
+                    reasoning = 'NIF de pessoa coletiva - serviços profissionais';
+                } else if (nifEmitente.startsWith('2')) {
+                    suggestedCategory = 'fornecimentos-servicos-externos';
+                    reasoning = 'NIF empresarial - fornecimentos e serviços';
+                }
+
+                // Description-based suggestions
+                const descLower = description.toLowerCase();
+                if (descLower.includes('combustivel') || descLower.includes('gasolina')) {
+                    suggestedCategory = 'viagens-deslocacoes';
+                    reasoning = 'Combustível identificado - viagens e deslocações';
+                } else if (descLower.includes('telefone') || descLower.includes('internet')) {
+                    suggestedCategory = 'comunicacoes';
+                    reasoning = 'Comunicações identificadas';
+                } else if (descLower.includes('seguro')) {
+                    suggestedCategory = 'seguros';
+                    reasoning = 'Seguro identificado';
+                } else if (descLower.includes('marketing') || descLower.includes('publicidade')) {
+                    suggestedCategory = 'marketing-publicidade';
+                    reasoning = 'Marketing/Publicidade identificado';
+                }
+
+                // Set the suggested category
+                categorySelect.value = suggestedCategory;
+                
+                // Update suggestion display
+                if (suggestionElement) {
+                    suggestionElement.textContent = `${this.getCategoryDisplayName(suggestedCategory)} - ${reasoning}`;
+                }
+
+                this.log(`Categoria contábil sugerida: ${suggestedCategory} (${reasoning})`, 'info');
+            }
+
+            // Get display name for category
+            getCategoryDisplayName(categoryValue) {
+                const categoryNames = {
+                    'fornecimentos-servicos-externos': 'Fornecimentos e Serviços Externos',
+                    'mercadorias': 'Mercadorias',
+                    'materias-primas': 'Matérias-primas',
+                    'equipamentos': 'Equipamentos',
+                    'servicos-profissionais': 'Serviços Profissionais',
+                    'marketing-publicidade': 'Marketing e Publicidade',
+                    'viagens-deslocacoes': 'Viagens e Deslocações',
+                    'comunicacoes': 'Comunicações',
+                    'seguros': 'Seguros',
+                    'outros': 'Outros'
+                };
+                return categoryNames[categoryValue] || categoryValue;
+            }
+
+            // Auto-enable relevant options based on invoice data
+            autoEnableRelevantOptions(invoiceData) {
+                const amount = parseFloat(invoiceData.total) || 0;
+                const hasIVA = parseFloat(invoiceData.iva) > 0;
+
+                // Auto-enable IVA control if invoice has IVA
+                if (hasIVA) {
+                    document.getElementById('controleIVA').checked = true;
+                    document.getElementById('ivaOptions').style.display = 'block';
+                    this.log('Controle de IVA ativado automaticamente', 'info');
+                }
+
+                // Auto-enable accounts payable for amounts > 500€
+                if (amount > 500) {
+                    document.getElementById('contasPagar').checked = true;
+                    document.getElementById('payableOptions').style.display = 'block';
+                    this.log('Contas a pagar ativado automaticamente', 'info');
+                }
+
+                // Auto-enable banking integration for amounts > 100€
+                if (amount > 100) {
+                    document.getElementById('integracaoBancaria').checked = true;
+                    document.getElementById('bankingOptions').style.display = 'block';
+                    this.log('Integração bancária ativada automaticamente', 'info');
+                }
+
+                // Auto-enable alerts for amounts > 1000€
+                if (amount > 1000) {
+                    document.getElementById('criarAlerta').checked = true;
+                    document.getElementById('alertOptions').style.display = 'block';
+                    this.log('Alertas ativados automaticamente', 'info');
+                }
+            }
+
+            // Enhanced invoice processing with integrations
+            async processInvoiceData() {
+                try {
+                    const invoiceData = this.collectInvoiceData();
+                    const enabledIntegrations = this.getEnabledIntegrations();
+
+                    this.log('Iniciando processamento da fatura...', 'info');
+
+                    // Validate required fields
+                    if (!this.validateInvoiceData(invoiceData)) {
+                        this.log('Dados da fatura incompletos', 'error');
+                        return;
+                    }
+
+                    // Process each enabled integration
+                    const results = {
+                        invoice: invoiceData,
+                        integrations: {},
+                        timestamp: new Date().toISOString()
+                    };
+
+                    if (enabledIntegrations.banking) {
+                        results.integrations.banking = await this.processBankingIntegration(invoiceData);
+                    }
+
+                    if (enabledIntegrations.iva) {
+                        results.integrations.iva = this.processIVAControl(invoiceData);
+                    }
+
+                    if (enabledIntegrations.accounting) {
+                        results.integrations.accounting = this.processAccountingCategory(invoiceData);
+                    }
+
+                    if (enabledIntegrations.payable) {
+                        results.integrations.payable = this.processAccountsPayable(invoiceData);
+                    }
+
+                    if (enabledIntegrations.alerts) {
+                        results.integrations.alerts = this.processAlerts(invoiceData);
+                    }
+
+                    // Save processed invoice
+                    this.saveProcessedInvoice(results);
+
+                    // Show success message with integration results
+                    this.showProcessingResults(results);
+
+                    // Hide processing interface
+                    this.hideInvoiceProcessingInterface();
+
+                    this.log('Fatura processada com sucesso!', 'success');
+
+                } catch (error) {
+                    this.log(`Erro no processamento: ${error.message}`, 'error');
+                }
+            }
+
+            // Validate invoice data
+            validateInvoiceData(data) {
+                const required = ['nifEmitente', 'total', 'dataFatura'];
+                return required.every(field => data[field] && data[field].trim() !== '');
+            }
+
+            // Get enabled integrations
+            getEnabledIntegrations() {
+                return {
+                    banking: document.getElementById('integracaoBancaria').checked,
+                    iva: document.getElementById('controleIVA').checked,
+                    accounting: document.getElementById('categorizacao').checked,
+                    payable: document.getElementById('contasPagar').checked,
+                    alerts: document.getElementById('criarAlerta').checked,
+                    attachment: document.getElementById('anexarComprovativo').checked
+                };
+            }
+
+            // Process banking integration
+            async processBankingIntegration(invoiceData) {
+                const selectedBank = document.getElementById('bancoSelecionado').value;
+                const selectedAccount = document.getElementById('contaSelecionada').value;
+
+                // Simulate banking API call
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        resolve({
+                            status: 'pending',
+                            bank: selectedBank,
+                            account: selectedAccount,
+                            amount: invoiceData.total,
+                            reference: `PAY-${Date.now()}`,
+                            message: 'Pagamento iniciado via API bancária'
+                        });
+                    }, 1000);
+                });
+            }
+
+            // Process IVA control
+            processIVAControl(invoiceData) {
+                const ivaRegime = document.getElementById('regimeIVA').value;
+                const ivaAmount = parseFloat(invoiceData.iva) || 0;
+
+                return {
+                    regime: ivaRegime,
+                    amount: ivaAmount,
+                    deductible: ivaRegime === 'pro-rata' ? ivaAmount * 0.8 : ivaAmount,
+                    status: 'registered',
+                    message: `IVA registrado no regime ${ivaRegime}`
+                };
+            }
+
+            // Process accounting category
+            processAccountingCategory(invoiceData) {
+                const category = document.getElementById('categoriaContabil').value;
+                const costCenter = document.getElementById('centroCusto').value;
+
+                return {
+                    category: category,
+                    costCenter: costCenter,
+                    amount: invoiceData.total,
+                    status: 'categorized',
+                    message: `Fatura categorizada como ${category}`
+                };
+            }
+
+            // Process accounts payable
+            processAccountsPayable(invoiceData) {
+                const dueDate = document.getElementById('dataVencimento').value;
+
+                return {
+                    dueDate: dueDate,
+                    amount: invoiceData.total,
+                    status: 'registered',
+                    payableId: `AP-${Date.now()}`,
+                    message: 'Documento lançado em contas a pagar'
+                };
+            }
+
+            // Process alerts
+            processAlerts(invoiceData) {
+                const alertType = document.getElementById('tipoAlerta').value;
+                const alertDays = document.getElementById('antecedenciaAlerta').value;
+
+                return {
+                    type: alertType,
+                    daysAdvance: alertDays,
+                    status: 'scheduled',
+                    alertId: `ALERT-${Date.now()}`,
+                    message: `Alerta de ${alertType} agendado para ${alertDays} dias antes`
+                };
+            }
+
+            // Save processed invoice to local storage
+            saveProcessedInvoice(results) {
+                const processed = JSON.parse(localStorage.getItem('processedInvoices') || '[]');
+                processed.push(results);
+                localStorage.setItem('processedInvoices', JSON.stringify(processed));
+            }
+
+            // Show processing results
+            showProcessingResults(results) {
+                let message = '✅ Fatura processada com sucesso!\n\n';
+                
+                Object.entries(results.integrations).forEach(([key, integration]) => {
+                    if (integration) {
+                        message += `${integration.message}\n`;
+                    }
+                });
+
+                alert(message);
             }
         }
 
         // Initialize scanner when page loads
         document.addEventListener('DOMContentLoaded', () => {
-            new JSQRScanner();
+            // Initialize debug session
+            window.debugSession = {
+                startTime: Date.now(),
+                logs: [],
+                stats: { info: 0, success: 0, warning: 0, error: 0, debug: 0 },
+                averageProcessingTime: 0
+            };
+            
+            // Initialize scanner
+            const scanner = new JSQRScanner();
+            
+            // Update technical details on load
+            setTimeout(() => {
+                scanner.updateTechnicalDetails();
+                scanner.updateSessionStats('info');
+            }, 1000);
         });
     </script>
 </body>
