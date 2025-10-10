@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Text QR Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .qr-container {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        canvas {
+            border: 1px solid #ddd;
+            margin: 10px 0;
+        }
+        .text-content {
+            font-family: monospace;
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <h1>Simple Text QR Code Test</h1>
+    
+    <div class="qr-container">
+        <h3>Simple Text: "Hello World"</h3>
+        <canvas id="qr1"></canvas>
+        <div class="text-content">Hello World</div>
+    </div>
+
+    <div class="qr-container">
+        <h3>Number Test: "123456"</h3>
+        <canvas id="qr2"></canvas>
+        <div class="text-content">123456</div>
+    </div>
+
+    <div class="qr-container">
+        <h3>URL Test</h3>
+        <canvas id="qr3"></canvas>
+        <div class="text-content">https://www.google.com</div>
+    </div>
+
+    <script>
+        // Generate simple QR codes
+        QRCode.toCanvas(document.getElementById('qr1'), 'Hello World', {
+            width: 200,
+            margin: 2,
+            color: {
+                dark: '#000000',
+                light: '#FFFFFF'
+            }
+        });
+
+        QRCode.toCanvas(document.getElementById('qr2'), '123456', {
+            width: 200,
+            margin: 2,
+            color: {
+                dark: '#000000',
+                light: '#FFFFFF'
+            }
+        });
+
+        QRCode.toCanvas(document.getElementById('qr3'), 'https://www.google.com', {
+            width: 200,
+            margin: 2,
+            color: {
+                dark: '#000000',
+                light: '#FFFFFF'
+            }
+        });
+    </script>
+</body>
+</html>

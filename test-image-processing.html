@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Image Processing</title>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+</head>
+<body>
+    <h1>Test Image Processing</h1>
+    
+    <div>
+        <h2>Upload Test Image:</h2>
+        <input type="file" id="fileInput" accept="image/*">
+    </div>
+    
+    <div>
+        <h2>Original Image:</h2>
+        <img id="originalImage" style="max-width: 300px; border: 1px solid #ccc;">
+    </div>
+    
+    <div>
+        <h2>Canvas Processing:</h2>
+        <canvas id="processedCanvas" style="border: 1px solid #ccc;"></canvas>
+    </div>
+    
+    <div>
+        <h2>Results:</h2>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        document.getElementById('fileInput').addEventListener('change', handleFileUpload);
+        
+        async function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const results = document.getElementById('results');
+            const originalImage = document.getElementById('originalImage');
+            const processedCanvas = document.getElementById('processedCanvas');
+            const ctx = processedCanvas.getContext('2d');
+            
+            results.innerHTML = '<p>🔄 Processing...</p>';
+            
+            try {
+                // Show original image
+                originalImage.src = URL.createObjectURL(file);
+                
+                // Process with our function
+                const imageData = await fileToImageData(file);
+                
+                // Display processed image on canvas
+                processedCanvas.width = imageData.width;
+                processedCanvas.height = imageData.height;
+                ctx.putImageData(imageData, 0, 0);
+                
+                results.innerHTML += `<p>📊 Image processed: ${imageData.width}x${imageData.height}, ${imageData.data.length} bytes</p>`;
+                
+                // Test different jsQR configurations
+                const configs = [
+                    { name: 'Default', options: {} },
+                    { name: 'No Invert', options: { inversionAttempts: "dontInvert" } },
+                    { name: 'Only Invert', options: { inversionAttempts: "onlyInvert" } },
+                    { name: 'Attempt Both', options: { inversionAttempts: "attemptBoth" } }
+                ];
+                
+                let found = false;
+                for (const config of configs) {
+                    try {
+                        const startTime = performance.now();
+                        const qrCode = jsQR(imageData.data, imageData.width, imageData.height, config.options);
+                        const endTime = performance.now();
+                        
+                        if (qrCode && qrCode.data) {
+                            results.innerHTML += `<p>✅ ${config.name}: "${qrCode.data}" (${Math.round(endTime - startTime)}ms)</p>`;
+                            found = true;
+                            break;
+                        } else {
+                            results.innerHTML += `<p>❌ ${config.name}: No QR code found (${Math.round(endTime - startTime)}ms)</p>`;
+                        }
+                    } catch (error) {
+                        results.innerHTML += `<p>❌ ${config.name}: Error - ${error.message}</p>`;
+                        console.error(`Error with ${config.name}:`, error);
+                    }
+                }
+                
+                if (!found) {
+                    // Additional debugging
+                    results.innerHTML += '<h3>Debug Information:</h3>';
+                    results.innerHTML += `<p>File type: ${file.type}</p>`;
+                    results.innerHTML += `<p>File size: ${file.size} bytes</p>`;
+                    results.innerHTML += `<p>Canvas dimensions: ${processedCanvas.width}x${processedCanvas.height}</p>`;
+                    
+                    // Sample pixel data
+                    const samplePixels = [];
+                    for (let i = 0; i < Math.min(20, imageData.data.length); i += 4) {
+                        samplePixels.push(`[${imageData.data[i]},${imageData.data[i+1]},${imageData.data[i+2]},${imageData.data[i+3]}]`);
+                    }
+                    results.innerHTML += `<p>Sample pixels: ${samplePixels.join(', ')}</p>`;
+                }
+                
+            } catch (error) {
+                results.innerHTML += `<p>❌ Error: ${error.message}</p>`;
+                console.error('Processing error:', error);
+            }
+        }
+        
+        function fileToImageData(file) {
+            return new Promise((resolve, reject) => {
+                if (!file.type.startsWith('image/')) {
+                    reject(new Error('File must be an image'));
+                    return;
+                }
+                
+                if (file.size > 10 * 1024 * 1024) {
+                    reject(new Error('File too large (max 10MB)'));
+                    return;
+                }
+                
+                const img = new Image();
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                img.onload = () => {
+                    try {
+                        console.log(`[DEBUG] Image loaded: ${img.width}x${img.height}`);
+                        
+                        if (img.width <= 0 || img.height <= 0) {
+                            reject(new Error('Invalid image dimensions'));
+                            return;
+                        }
+                        
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        
+                        console.log(`[DEBUG] Canvas set to: ${canvas.width}x${canvas.height}`);
+                        
+                        ctx.drawImage(img, 0, 0);
+                        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                        
+                        console.log(`[DEBUG] ImageData created: ${imageData.width}x${imageData.height}, ${imageData.data.length} bytes`);
+                        
+                        URL.revokeObjectURL(img.src);
+                        resolve(imageData);
+                    } catch (error) {
+                        console.error('[DEBUG] Error in image processing:', error);
+                        URL.revokeObjectURL(img.src);
+                        reject(error);
+                    }
+                };
+                
+                img.onerror = (error) => {
+                    console.error('[DEBUG] Image load error:', error);
+                    URL.revokeObjectURL(img.src);
+                    reject(new Error('Failed to load image'));
+                };
+                
+                try {
+                    img.src = URL.createObjectURL(file);
+                    console.log(`[DEBUG] Created object URL for file: ${file.name}`);
+                } catch (error) {
+                    console.error('[DEBUG] Error creating object URL:', error);
+                    reject(new Error('Failed to create object URL'));
+                }
+            });
+        }
+    </script>
+</body>
+</html>
