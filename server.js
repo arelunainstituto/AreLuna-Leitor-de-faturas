@@ -3,6 +3,10 @@ const multer = require('multer');
 const QrCode = require('qrcode-reader');
 const Jimp = require('jimp');
 const cors = require('cors');
+const helmet = require('helmet');
+const compression = require('compression');
+const pino = require('pino');
+const pinoHttp = require('pino-http');
 const path = require('path');
 const fs = require('fs-extra');
 const jsQR = require('jsqr');
@@ -11,7 +15,33 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 
 // Middleware
+const logger = pino({ level: process.env.LOG_LEVEL || 'info' });
+app.use(pinoHttp({ logger }));
+// Configure Helmet with a permissive CSP for local development to allow CDN scripts/styles
+app.use(helmet({
+  contentSecurityPolicy: {
+    useDefaults: true,
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: [
+        "'self'",
+        "'unsafe-inline'", // allow inline scripts used for Tailwind config and small helpers
+        "https://cdn.tailwindcss.com",
+        "https://cdn.jsdelivr.net"
+      ],
+      styleSrc: [
+        "'self'",
+        "'unsafe-inline'", // allow inline styles injected by Tailwind CDN
+        "https://cdn.jsdelivr.net"
+      ],
+      imgSrc: ["'self'", "data:", "blob:"],
+      connectSrc: ["'self'", "https://cdn.jsdelivr.net", "https://cdn.tailwindcss.com"],
+      fontSrc: ["'self'", "https://cdn.jsdelivr.net", "data:"]
+    }
+  }
+}));
 app.use(cors());
+app.use(compression());
 app.use(express.json());
 app.use(express.static('public'));
 
@@ -471,6 +501,14 @@ app.get('/', (req, res) => {
 app.get('/health', (req, res) => {
   res.json({ 
     status: 'OK', 
+    service: 'QR Code Reader Service',
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.get('/healthz', (req, res) => {
+  res.json({ 
+    status: 'OK',
     service: 'QR Code Reader Service',
     timestamp: new Date().toISOString()
   });
