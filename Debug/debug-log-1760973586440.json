@@ -1,0 +1,349 @@
+{
+  "exportDate": "2025-10-20T15:19:46.440Z",
+  "logs": [
+    {
+      "timestamp": "2025-10-20T15:17:55.243Z",
+      "message": "🚀 Sistema de Debug inicializado",
+      "type": "success",
+      "id": 1760973475243.6904
+    },
+    {
+      "timestamp": "2025-10-20T15:17:55.244Z",
+      "message": "💡 Pressione Ctrl+Shift+D para mostrar/ocultar",
+      "type": "info",
+      "id": 1760973475244.392
+    },
+    {
+      "timestamp": "2025-10-20T15:17:55.283Z",
+      "message": "[INFO] Sistema pronto para processar imagens [object Object]",
+      "type": "debug",
+      "id": 1760973475283.4902
+    },
+    {
+      "timestamp": "2025-10-20T15:17:55.289Z",
+      "message": "🚀 Inicializando JSQRScanner...",
+      "type": "debug",
+      "id": 1760973475289.753
+    },
+    {
+      "timestamp": "2025-10-20T15:17:55.289Z",
+      "message": "[INFO] Sistema pronto para processar imagens [object Object]",
+      "type": "debug",
+      "id": 1760973475289.1868
+    },
+    {
+      "timestamp": "2025-10-20T15:17:55.289Z",
+      "message": "✅ JSQRScanner inicializado com sucesso",
+      "type": "debug",
+      "id": 1760973475289.8738
+    },
+    {
+      "timestamp": "2025-10-20T15:17:55.295Z",
+      "message": "[INFO] 1 câmera(s) detectada(s) [object Object]",
+      "type": "debug",
+      "id": 1760973475295.7332
+    },
+    {
+      "timestamp": "2025-10-20T15:17:55.306Z",
+      "message": "[INFO] 1 câmera(s) detectada(s) [object Object]",
+      "type": "debug",
+      "id": 1760973475306.0405
+    },
+    {
+      "timestamp": "2025-10-20T15:18:12.106Z",
+      "message": "[INFO] Iniciando câmera... [object Object]",
+      "type": "debug",
+      "id": 1760973492106.8484
+    },
+    {
+      "timestamp": "2025-10-20T15:18:12.108Z",
+      "message": "[INFO] Iniciando câmera... [object Object]",
+      "type": "debug",
+      "id": 1760973492108.9365
+    },
+    {
+      "timestamp": "2025-10-20T15:18:12.313Z",
+      "message": "[ERROR] Erro ao iniciar câmera: The play() request was interrupted by a new load request. https://goo.gl/LdLk22 [object Object]",
+      "type": "debug",
+      "id": 1760973492313.9778
+    },
+    {
+      "timestamp": "2025-10-20T15:18:12.652Z",
+      "message": "[SUCCESS] Câmera iniciada com sucesso [object Object]",
+      "type": "debug",
+      "id": 1760973492652.5845
+    },
+    {
+      "timestamp": "2025-10-20T15:18:25.795Z",
+      "message": "[DEBUG] Starting file processing for: Screenshot 2025-10-19 at 10.55.40 PM.png type: image/png size: 154235",
+      "type": "debug",
+      "id": 1760973505795.0337
+    },
+    {
+      "timestamp": "2025-10-20T15:18:25.796Z",
+      "message": "[INFO] Processando arquivo: Screenshot 2025-10-19 at 10.55.40 PM.png [object Object]",
+      "type": "debug",
+      "id": 1760973505796.5784
+    },
+    {
+      "timestamp": "2025-10-20T15:18:25.796Z",
+      "message": "[DEBUG] Starting file processing for: Screenshot 2025-10-19 at 10.55.40 PM.png type: image/png size: 154235",
+      "type": "debug",
+      "id": 1760973505796.7402
+    },
+    {
+      "timestamp": "2025-10-20T15:18:25.796Z",
+      "message": "[INFO] Processando arquivo: Screenshot 2025-10-19 at 10.55.40 PM.png [object Object]",
+      "type": "debug",
+      "id": 1760973505796.0613
+    },
+    {
+      "timestamp": "2025-10-20T15:18:25.797Z",
+      "message": "[DEBUG] Image loaded: 842 x 868",
+      "type": "debug",
+      "id": 1760973505797.6465
+    },
+    {
+      "timestamp": "2025-10-20T15:18:25.807Z",
+      "message": "[DEBUG] ImageData created: 842 x 868 data length: 2923424",
+      "type": "debug",
+      "id": 1760973505807.5764
+    },
+    {
+      "timestamp": "2025-10-20T15:18:25.807Z",
+      "message": "[DEBUG] Got imageData, attempting QR detection...",
+      "type": "debug",
+      "id": 1760973505807.6885
+    },
+    {
+      "timestamp": "2025-10-20T15:18:25.833Z",
+      "message": "[DEBUG] QR Code detected: A:516562240*B:293300054*C:PT*D:FR*E:N*F:20250330*G:FR P/5004*H:JFZ67XGJ-5004*I1:PT*I2:120.00*I3:65.00*I4:3.90*N:3.90*O:188.90*Q:uRbp*R:0790",
+      "type": "debug",
+      "id": 1760973505833.441
+    },
+    {
+      "timestamp": "2025-10-20T15:18:25.833Z",
+      "message": "[DEBUG] handleScanSuccess called with data: A:516562240*B:293300054*C:PT*D:FR*E:N*F:20250330*G:FR P/5004*H:JFZ67XGJ-5004*I1:PT*I2:120.00*I3:65.00*I4:3.90*N:3.90*O:188.90*Q:uRbp*R:0790",
+      "type": "debug",
+      "id": 1760973505833.9182
+    },
+    {
+      "timestamp": "2025-10-20T15:18:25.833Z",
+      "message": "[DEBUG] Data type: string",
+      "type": "debug",
+      "id": 1760973505833.859
+    },
+    {
+      "timestamp": "2025-10-20T15:18:25.833Z",
+      "message": "[DEBUG] Data length: 139",
+      "type": "debug",
+      "id": 1760973505833.4385
+    },
+    {
+      "timestamp": "2025-10-20T15:18:25.834Z",
+      "message": "[DEBUG] Image loaded: 842 x 868",
+      "type": "debug",
+      "id": 1760973505834.695
+    },
+    {
+      "timestamp": "2025-10-20T15:18:25.843Z",
+      "message": "[DEBUG] ImageData created: 842 x 868 data length: 2923424",
+      "type": "debug",
+      "id": 1760973505843.2551
+    },
+    {
+      "timestamp": "2025-10-20T15:18:25.843Z",
+      "message": "[DEBUG] Got imageData, attempting QR detection...",
+      "type": "debug",
+      "id": 1760973505843.6096
+    },
+    {
+      "timestamp": "2025-10-20T15:18:25.875Z",
+      "message": "[DEBUG] QR Code detected: A:516562240*B:293300054*C:PT*D:FR*E:N*F:20250330*G:FR P/5004*H:JFZ67XGJ-5004*I1:PT*I2:120.00*I3:65.00*I4:3.90*N:3.90*O:188.90*Q:uRbp*R:0790",
+      "type": "debug",
+      "id": 1760973505875.6992
+    },
+    {
+      "timestamp": "2025-10-20T15:18:25.875Z",
+      "message": "[DEBUG] handleScanSuccess called with data: A:516562240*B:293300054*C:PT*D:FR*E:N*F:20250330*G:FR P/5004*H:JFZ67XGJ-5004*I1:PT*I2:120.00*I3:65.00*I4:3.90*N:3.90*O:188.90*Q:uRbp*R:0790",
+      "type": "debug",
+      "id": 1760973505875.1204
+    },
+    {
+      "timestamp": "2025-10-20T15:18:25.875Z",
+      "message": "[DEBUG] Data type: string",
+      "type": "debug",
+      "id": 1760973505875.0093
+    },
+    {
+      "timestamp": "2025-10-20T15:18:25.875Z",
+      "message": "[DEBUG] Data length: 139",
+      "type": "debug",
+      "id": 1760973505875.6838
+    },
+    {
+      "timestamp": "2025-10-20T15:18:26.136Z",
+      "message": "[DEBUG] Normalization result: [object Object]",
+      "type": "debug",
+      "id": 1760973506136.1597
+    },
+    {
+      "timestamp": "2025-10-20T15:18:26.136Z",
+      "message": "[DEBUG] Final data: A:516562240*B:293300054*C:PT*D:FR*E:N*F:20250330*G:FR P/5004*H:JFZ67XGJ-5004*I1:PT*I2:120.00*I3:65.00*I4:3.90*N:3.90*O:188.90*Q:uRbp*R:0790",
+      "type": "debug",
+      "id": 1760973506136.0872
+    },
+    {
+      "timestamp": "2025-10-20T15:18:26.136Z",
+      "message": "[DEBUG] Was normalized: false",
+      "type": "debug",
+      "id": 1760973506136.792
+    },
+    {
+      "timestamp": "2025-10-20T15:18:26.177Z",
+      "message": "[DEBUG] Normalization result: [object Object]",
+      "type": "debug",
+      "id": 1760973506177.1455
+    },
+    {
+      "timestamp": "2025-10-20T15:18:26.177Z",
+      "message": "[DEBUG] Final data: A:516562240*B:293300054*C:PT*D:FR*E:N*F:20250330*G:FR P/5004*H:JFZ67XGJ-5004*I1:PT*I2:120.00*I3:65.00*I4:3.90*N:3.90*O:188.90*Q:uRbp*R:0790",
+      "type": "debug",
+      "id": 1760973506177.3901
+    },
+    {
+      "timestamp": "2025-10-20T15:18:26.177Z",
+      "message": "[DEBUG] Was normalized: false",
+      "type": "debug",
+      "id": 1760973506177.519
+    },
+    {
+      "timestamp": "2025-10-20T15:18:26.536Z",
+      "message": "[DEBUG] Calling showResult with: A:516562240*B:293300054*C:PT*D:FR*E:N*F:20250330*G:FR P/5004*H:JFZ67XGJ-5004*I1:PT*I2:120.00*I3:65.00*I4:3.90*N:3.90*O:188.90*Q:uRbp*R:0790 true false",
+      "type": "debug",
+      "id": 1760973506536.6992
+    },
+    {
+      "timestamp": "2025-10-20T15:18:26.536Z",
+      "message": "showResult called with: [object Object]",
+      "type": "debug",
+      "id": 1760973506536.3506
+    },
+    {
+      "timestamp": "2025-10-20T15:18:26.536Z",
+      "message": "Elements found: [object Object]",
+      "type": "debug",
+      "id": 1760973506536.5579
+    },
+    {
+      "timestamp": "2025-10-20T15:18:26.536Z",
+      "message": "qrContentElement found: true",
+      "type": "debug",
+      "id": 1760973506536.4656
+    },
+    {
+      "timestamp": "2025-10-20T15:18:26.536Z",
+      "message": "Content set to qrContentElement: A:516562240*B:293300054*C:PT*D:FR*E:N*F:20250330*G:FR P/5004*H:JFZ67XGJ-5004*I1:PT*I2:120.00*I3:65.00*I4:3.90*N:3.90*O:188.90*Q:uRbp*R:0790",
+      "type": "debug",
+      "id": 1760973506536.4778
+    },
+    {
+      "timestamp": "2025-10-20T15:18:26.536Z",
+      "message": "Success result shown",
+      "type": "debug",
+      "id": 1760973506536.5312
+    },
+    {
+      "timestamp": "2025-10-20T15:18:26.539Z",
+      "message": "[SUCCESS] QR Code decodificado com sucesso (38ms) [object Object]",
+      "type": "debug",
+      "id": 1760973506539.872
+    },
+    {
+      "timestamp": "2025-10-20T15:18:26.577Z",
+      "message": "[DEBUG] Calling showResult with: A:516562240*B:293300054*C:PT*D:FR*E:N*F:20250330*G:FR P/5004*H:JFZ67XGJ-5004*I1:PT*I2:120.00*I3:65.00*I4:3.90*N:3.90*O:188.90*Q:uRbp*R:0790 true false",
+      "type": "debug",
+      "id": 1760973506577.5247
+    },
+    {
+      "timestamp": "2025-10-20T15:18:26.577Z",
+      "message": "showResult called with: [object Object]",
+      "type": "debug",
+      "id": 1760973506577.0405
+    },
+    {
+      "timestamp": "2025-10-20T15:18:26.577Z",
+      "message": "Elements found: [object Object]",
+      "type": "debug",
+      "id": 1760973506577.4653
+    },
+    {
+      "timestamp": "2025-10-20T15:18:26.577Z",
+      "message": "qrContentElement found: true",
+      "type": "debug",
+      "id": 1760973506577.397
+    },
+    {
+      "timestamp": "2025-10-20T15:18:26.577Z",
+      "message": "Content set to qrContentElement: A:516562240*B:293300054*C:PT*D:FR*E:N*F:20250330*G:FR P/5004*H:JFZ67XGJ-5004*I1:PT*I2:120.00*I3:65.00*I4:3.90*N:3.90*O:188.90*Q:uRbp*R:0790",
+      "type": "debug",
+      "id": 1760973506577.1218
+    },
+    {
+      "timestamp": "2025-10-20T15:18:26.577Z",
+      "message": "Success result shown",
+      "type": "debug",
+      "id": 1760973506577.8323
+    },
+    {
+      "timestamp": "2025-10-20T15:18:26.578Z",
+      "message": "[SUCCESS] QR Code decodificado com sucesso (79ms) [object Object]",
+      "type": "debug",
+      "id": 1760973506578.929
+    },
+    {
+      "timestamp": "2025-10-20T15:18:27.341Z",
+      "message": "🎯 INICIANDO showInvoiceProcessingInterface",
+      "type": "info",
+      "id": 1760973507341.2783
+    },
+    {
+      "timestamp": "2025-10-20T15:18:27.341Z",
+      "message": "📄 QR Content recebido: A:516562240*B:293300054*C:PT*D:FR*E:N*F:20250330*G:FR P/5004*H:JFZ67XGJ-5004*I1:PT*I2:120.00*I3:65.0...",
+      "type": "debug",
+      "id": 1760973507341.1191
+    },
+    {
+      "timestamp": "2025-10-20T15:18:27.341Z",
+      "message": "🚨 ERRO CRÍTICO: Uncaught TypeError: Cannot set properties of null (setting 'textContent') em http://localhost:8080/js/qr-scanner.js:2661",
+      "type": "error",
+      "id": 1760973507341.602
+    },
+    {
+      "timestamp": "2025-10-20T15:18:27.380Z",
+      "message": "🎯 INICIANDO showInvoiceProcessingInterface",
+      "type": "info",
+      "id": 1760973507380.4246
+    },
+    {
+      "timestamp": "2025-10-20T15:18:27.382Z",
+      "message": "📄 QR Content recebido: A:516562240*B:293300054*C:PT*D:FR*E:N*F:20250330*G:FR P/5004*H:JFZ67XGJ-5004*I1:PT*I2:120.00*I3:65.0...",
+      "type": "debug",
+      "id": 1760973507382.1602
+    },
+    {
+      "timestamp": "2025-10-20T15:18:27.383Z",
+      "message": "🚨 ERRO CRÍTICO: Uncaught TypeError: Cannot set properties of null (setting 'textContent') em http://localhost:8080/js/qr-scanner.js:2661",
+      "type": "error",
+      "id": 1760973507383.729
+    }
+  ],
+  "stats": {
+    "total": 56,
+    "success": 1,
+    "error": 2,
+    "warning": 0,
+    "info": 3,
+    "debug": 50
+  }
+}

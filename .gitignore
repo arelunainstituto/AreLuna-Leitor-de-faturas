@@ -96,12 +96,46 @@ Desktop.ini
 
 # Uploads directory (temporary files)
 uploads/
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.webp
 
 # Test files
 test-*.png
 test-*.jpg
 test-*.txt
+test-*.html
 user-qr-*.png
 
 # Debug files
 debug-*.js
+debug-*.html
+
+# Test coverage
+coverage/
+*.lcov
+.nyc_output/
+
+# Jest
+jest-results.json
+
+# ESLint
+.eslintcache
+
+# Editor backup files
+*~
+*.swp
+*.swo
+*_old.*
+*_backup.*
+
+# OS specific
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+ehthumbs.db
+Desktop.ini

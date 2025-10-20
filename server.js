@@ -12,7 +12,7 @@ const fs = require('fs-extra');
 const jsQR = require('jsqr');
 
 const app = express();
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 3030;
 
 // Middleware
 const logger = pino({ level: process.env.LOG_LEVEL || 'info' });
@@ -493,6 +493,9 @@ async function decodeQRCode(imagePath) {
   });
 }
 
+// Import routes
+const invoiceRoutes = require('./routes/invoices');
+
 // Routes
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
@@ -502,7 +505,13 @@ app.get('/health', (req, res) => {
   res.json({ 
     status: 'OK', 
     service: 'QR Code Reader Service',
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
+    endpoints: {
+      qrDecode: '/decode',
+      invoices: '/api/faturas',
+      health: '/health',
+      docs: '/api/docs'
+    }
   });
 });
 
@@ -512,6 +521,22 @@ app.get('/healthz', (req, res) => {
     service: 'QR Code Reader Service',
     timestamp: new Date().toISOString()
   });
+});
+
+// API Routes
+app.use('/api/faturas', invoiceRoutes);
+
+// API Documentation
+app.get('/api/docs', (req, res) => {
+  const docsPath = path.join(__dirname, 'docs', 'API.md');
+  if (fs.existsSync(docsPath)) {
+    res.sendFile(docsPath);
+  } else {
+    res.status(404).json({
+      success: false,
+      message: 'Documentação não encontrada'
+    });
+  }
 });
 
 // Endpoint para decodificar QR code

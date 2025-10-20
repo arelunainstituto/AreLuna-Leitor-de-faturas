@@ -1,0 +1,41 @@
+{
+  "name": "JSQRScanner",
+  "displayName": "Leitor de Faturas - Scanner de QR Codes",
+  "client": "Grupo AreLuna",
+  "year": 2025,
+  "status": "active",
+  "version": "1.0.0",
+  "tech": [
+    "Node.js",
+    "Express",
+    "JavaScript ES6+",
+    "HTML5",
+    "CSS3",
+    "TailwindCSS"
+  ],
+  "libraries": [
+    "jsQR",
+    "qrcode-reader",
+    "Jimp",
+    "Sharp",
+    "Multer",
+    "Helmet",
+    "CORS"
+  ],
+  "tags": [
+    "QR-Scanner",
+    "Invoice-Processing",
+    "AT-Portugal",
+    "WebRTC",
+    "Image-Processing"
+  ],
+  "features": [
+    "Real-time camera scanning",
+    "Image upload support",
+    "Portuguese AT invoice processing",
+    "Data normalization",
+    "Multiple decoding strategies",
+    "Dark mode support"
+  ],
+  "notes": "Scanner de QR Codes especializado em faturas fiscais portuguesas (AT) com suporte a câmera em tempo real e upload de imagens. Utiliza múltiplas estratégias de decodificação para máxima confiabilidade."
+}
