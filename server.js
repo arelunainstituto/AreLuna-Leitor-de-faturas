@@ -12,7 +12,7 @@ const fs = require('fs-extra');
 const jsQR = require('jsqr');
 
 const app = express();
-const PORT = process.env.PORT || 3030;
+const PORT = process.env.PORT || 8080;
 
 // Middleware
 const logger = pino({ level: process.env.LOG_LEVEL || 'info' });
@@ -42,7 +42,15 @@ app.use(helmet({
 }));
 app.use(cors());
 app.use(compression());
-app.use(express.json());
+
+// Middleware para forçar UTF-8 apenas em respostas JSON (rotas de API)
+app.use('/api', (req, res, next) => {
+    res.setHeader('Content-Type', 'application/json; charset=utf-8');
+    next();
+});
+
+app.use(express.json({ charset: 'utf-8' }));
+app.use(express.urlencoded({ extended: true, charset: 'utf-8' }));
 app.use(express.static('public'));
 
 // Ensure uploads directory exists
@@ -524,7 +532,9 @@ app.get('/healthz', (req, res) => {
 });
 
 // API Routes
+const fileRoutes = require('./routes/files');
 app.use('/api/faturas', invoiceRoutes);
+app.use('/api/files', fileRoutes);
 
 // API Documentation
 app.get('/api/docs', (req, res) => {
